@@ -9,6 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -34,16 +36,22 @@ public class Atividade {
     @OneToMany(mappedBy = "atividade")
     private Set<Bloco> blocos = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(name = "tb_atividade_participante")
+    private Set<Participante> participantes = new HashSet<>();
+
     public Atividade() {
     }
 
-    public Atividade(Long id, String nome, String descricao, Double preco, Categoria categoria, Set<Bloco> blocos) {
+    public Atividade(Long id, String nome, String descricao, Double preco, Categoria categoria, Set<Bloco> blocos,
+            Set<Participante> participantes) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
         this.categoria = categoria;
         this.blocos = blocos;
+        this.participantes = participantes;
     }
 
     public Long getId() {
@@ -64,6 +72,10 @@ public class Atividade {
 
     public String getDescricao() {
         return descricao;
+    }
+
+    public Set<Participante> getParticipantes() {
+        return participantes;
     }
 
     public void setDescricao(String descricao) {
