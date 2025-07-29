@@ -1,10 +1,14 @@
 package com.oldschoolsolucoestech.desafio2_java_professional.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,12 +21,16 @@ public class Categoria {
     @Column(columnDefinition = "TEXT")
     private String descricao;
 
+    @OneToMany(mappedBy = "categoria")
+    private Set<Atividade> atividades = new HashSet<>();
+
     public Categoria() {
     }
 
-    public Categoria(Long id, String descricao) {
+    public Categoria(Long id, String descricao, Set<Atividade> atividades) {
         this.id = id;
         this.descricao = descricao;
+        this.atividades = atividades;
     }
 
     public Long getId() {
@@ -47,6 +55,10 @@ public class Categoria {
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
+    }
+
+    public Set<Atividade> getAtividades() {
+        return atividades;
     }
 
     @Override
