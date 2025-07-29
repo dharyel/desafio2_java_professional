@@ -1,5 +1,8 @@
 package com.oldschoolsolucoestech.desafio2_java_professional.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -27,15 +31,19 @@ public class Atividade {
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
+    @OneToMany(mappedBy = "atividade")
+    private Set<Bloco> blocos = new HashSet<>();
+
     public Atividade() {
     }
 
-    public Atividade(Long id, String nome, String descricao, Double preco, Categoria categoria) {
+    public Atividade(Long id, String nome, String descricao, Double preco, Categoria categoria, Set<Bloco> blocos) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
         this.categoria = categoria;
+        this.blocos = blocos;
     }
 
     public Long getId() {
@@ -72,6 +80,10 @@ public class Atividade {
 
     public Categoria getCategoria() {
         return categoria;
+    }
+
+    public Set<Bloco> getBlocos() {
+        return blocos;
     }
 
     @Override
